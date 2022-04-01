@@ -17,15 +17,36 @@ const meetupList = [
     }
 
 ]
-function Index() {
+function Index(props) {
     return (
         <div>
-         
-                <MeetupList meetups={meetupList} />
 
-           
+            <MeetupList meetups={props.meetups} />
+
+
         </div>
     )
 }
+// export async function getServerSideProps(context) {
+//     const req = context.req
+//     const res = context.res
+//     return {
+//         props: {
+//             meetups: {
+//                 meetupList
+//             }
+//         }
+//     }
 
+// }
+export async function getStaticProps() {
+
+    return {
+        props: {
+            meetups: meetupList
+        },
+        revalidate: 10
+    }
+
+}
 export default Index

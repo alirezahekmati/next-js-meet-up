@@ -13,5 +13,36 @@ function Meetupid() {
         </div>
     )
 }
+export function getStaticPaths() {
 
+    return {
+        fallback: true,
+        paths: [
+            {
+                params: {
+                    meetupid: "m1"
+                },
+                params: {
+                    meetupid: "m2"
+                }
+            }
+        ]
+    }
+}
+export function getStaticProps(context) {
+    const meetupid = context.params.meetupid
+    return {
+        props: {
+            meetupDate: {
+                id: meetupid,
+                title: "meet up first",
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/640px-Stadtbild_M%C3%BCnchen.jpg",
+                address: "addres 1 ",
+                description: "des 1 ",
+            }
+        }
+
+
+    }
+}
 export default Meetupid
