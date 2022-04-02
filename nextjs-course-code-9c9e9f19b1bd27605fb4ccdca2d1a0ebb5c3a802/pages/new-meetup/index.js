@@ -1,5 +1,6 @@
 import NewMeetupForm from '../../components/meetups/NewMeetupForm'
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router'
+import Head from 'next/head'
 function Index(props) {
     const router = useRouter()
     async function addMeetupHandeler(enteredMeetupData) {
@@ -17,8 +18,13 @@ function Index(props) {
     }
     return (
         <div>
-
-            <NewMeetupForm onAddMeetup={addMeetupHandeler} />
+            <>
+                <Head>
+                    <title> meetup creation</title>
+                    <meta name="description" content="create your meet up in here" />
+                </Head>
+                <NewMeetupForm onAddMeetup={addMeetupHandeler} />
+            </>
 
         </div>
     )

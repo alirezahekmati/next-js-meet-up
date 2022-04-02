@@ -1,27 +1,18 @@
 import MeetupList from "../components/meetups/MeetupList"
+import { MongoClient } from "mongodb"
+import Head from 'next/head'
 
-const meetupList = [
-    {
-        id: "m1",
-        title: "meet up first",
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/640px-Stadtbild_M%C3%BCnchen.jpg",
-        address: "addres 1 ",
-        description: "des 1 ",
-    },
-    {
-        id: "m2",
-        title: "meet up second",
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/640px-Stadtbild_M%C3%BCnchen.jpg",
-        address: "addres 2 ",
-        description: "des 2 ",
-    }
-
-]
 function Index(props) {
     return (
         <div>
-
+<>
+<Head>
+    <title>React meetup</title>
+    <meta name="description" content="find your meet up in here"/>
+</Head>
             <MeetupList meetups={props.meetups} />
+
+</>
 
 
         </div>
@@ -40,10 +31,22 @@ function Index(props) {
 
 // }
 export async function getStaticProps() {
-
+    const client = await MongoClient.connect('mongodb+srv://alireza:cIcuTcizbI5rZoTq@cluster0.pa75q.mongodb.net/meetups?retryWrites=true&w=majority');
+    const db = client.db();
+    const meetupCollection = db.collection('meetups');
+    const meetups = await meetupCollection.find().toArray();
+    client.close()
     return {
         props: {
-            meetups: meetupList
+            meetups: meetups.map(e =>
+
+            ({
+                id: e._id.toString(),
+                image: e.image,
+                title: e.title,
+                address: e.address
+            })
+            )
         },
         revalidate: 10
     }
